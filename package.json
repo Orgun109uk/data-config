@@ -1,0 +1,31 @@
+{
+  "name": "data-config",
+  "description": "A pair of classes to manage manipulating an objects data and its storage.",
+  "version": "0.1.0",
+  "keywords": [
+    "data",
+    "config"
+  ],
+  "author": "Orgun109uk <orgun109uk@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Orgun109uk/data-config.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Orgun109uk/data-config/issues"
+  },
+  "engines": {
+    "node": ">= 5.3.0"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.3",
+    "jshint-stylish": "^2.2.1",
+    "mocha": "^3.0.2",
+    "unit.js": "^2.0.0"
+  },
+  "scripts": {
+    "cs": "./node_modules/.bin/jshint --reporter=./node_modules/jshint-stylish ./lib",
+    "test": "./node_modules/.bin/mocha --harmony --recursive ./test/**/*.test.js"
+  }
+}
