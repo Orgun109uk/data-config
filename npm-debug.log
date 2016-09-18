@@ -1,0 +1,114 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@3.10.6
+3 info using node@v5.3.0
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   escapedName: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/home/vagrant/workspace/nodejs-cms/data-config',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /home/vagrant/.npm/data-config/0.1.0/package.tgz not in flight; packing
+9 verbose correctMkdir /home/vagrant/.npm correctMkdir not in flight; initializing
+10 info lifecycle data-config@0.1.0~prepublish: data-config@0.1.0
+11 silly lifecycle data-config@0.1.0~prepublish: no script for prepublish, continuing
+12 verbose tar pack [ '/home/vagrant/.npm/data-config/0.1.0/package.tgz',
+12 verbose tar pack   '/home/vagrant/workspace/nodejs-cms/data-config' ]
+13 verbose tarball /home/vagrant/.npm/data-config/0.1.0/package.tgz
+14 verbose folder /home/vagrant/workspace/nodejs-cms/data-config
+15 verbose addLocalTarball adding from inside cache /home/vagrant/.npm/data-config/0.1.0/package.tgz
+16 verbose correctMkdir /home/vagrant/.npm correctMkdir not in flight; initializing
+17 silly cache afterAdd data-config@0.1.0
+18 verbose afterAdd /home/vagrant/.npm/data-config/0.1.0/package/package.json not in flight; writing
+19 verbose correctMkdir /home/vagrant/.npm correctMkdir not in flight; initializing
+20 verbose afterAdd /home/vagrant/.npm/data-config/0.1.0/package/package.json written
+21 silly publish { name: 'data-config',
+21 silly publish   description: 'A pair of classes to manage manipulating an objects data and its storage.',
+21 silly publish   version: '0.1.0',
+21 silly publish   keywords: [ 'data', 'config' ],
+21 silly publish   author: { name: 'Orgun109uk', email: 'orgun109uk@gmail.com' },
+21 silly publish   license: 'MIT',
+21 silly publish   repository:
+21 silly publish    { type: 'git',
+21 silly publish      url: 'git+https://github.com/Orgun109uk/data-config.git' },
+21 silly publish   bugs: { url: 'https://github.com/Orgun109uk/data-config/issues' },
+21 silly publish   engines: { node: '>= 5.3.0' },
+21 silly publish   devDependencies:
+21 silly publish    { jshint: '^2.9.3',
+21 silly publish      'jshint-stylish': '^2.2.1',
+21 silly publish      mocha: '^3.0.2',
+21 silly publish      'unit.js': '^2.0.0' },
+21 silly publish   scripts:
+21 silly publish    { cs: 'jshint --reporter=./node_modules/jshint-stylish ./lib',
+21 silly publish      test: 'mocha --harmony --recursive ./test/**/*.test.js' },
+21 silly publish   readme: '[![Build Status](https://travis-ci.org/Orgun109uk/data-config.svg)](https://travis-ci.org/Orgun109uk/data-config)\n[![Build Status](https://david-dm.org/orgun109uk/data-config.png)](https://david-dm.org/orgun109uk/data-config)\n[![npm version](https://badge.fury.io/js/data-config.svg)](http://badge.fury.io/js/data-config)\n\n[![NPM](https://nodei.co/npm/data-config.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/data-config/)\n\n# Data/Config\n\nThis utility provides a Data and Config class, the Data class allows for the manipulation of a data object using a\ndot deliminated path. While the Config class extends the Data class with load and save functionality.\n\n### Installation\n```sh\n$ npm install data-config\n```\n\n### Usage\n```js\nconst Data = require(\'data-config\').Data;\n\nlet myData = new Data({\n    value1: "hello",\n    value2: {\n        value3: "world"\n    }\n});\n\n// > "hello"\nconsole.info(myData.get(\'value1\'));\n\n// > "world"\nconsole.info(myData.get(\'value2.value3\'));\n\n// > null\nconsole.info(myData.get(\'value3\'));\n\n// > "hello world"\nconsole.info(myData.get(\'value3\', \'hello world\'));\n\n```\n\nThe Data class provides the a *get*, *set*, *del* and *has* methods to get, set, delete and check for properties.\n\n```js\nconst Data = require(\'data-config\').Data;\n\n// Create the Data object, and use \'.\' for the deliminator.\nlet myData = new Data({}, \'.\');\n\n// > false\nmyData.has(\'value1\');\n\n// > null\nmyData.get(\'value1\');\n\nmyData.set(\'value1\', \'hello world\');\n\n// > true\nmyData.has(\'value1\');\n\n// > "hello world"\nmyData.get(\'value1\');\n\nmyData.del(\'value1\');\n\n// > false\nmyData.has(\'value1\');\n\n// > null\nmyData.get(\'value1\');\n```\n\nSetting the data using the Data object also updates the provided data object, for example:\n\n```js\nconst Data = require(\'data-config\').Data;\n\nlet data = {};\nlet myData = new Data(data);\n\nmyData.set(\'value1.value2\', \'hello world\');\n\n// > {"value1": {"value2": "hello world"}}\nconsole.dir(data);\n```\n\nFinally, you can also create references from a larger data object, which will kepp each other updated:\n\n```js\nconst Data = require(\'data-config\').Data;\n\nlet data = {\n    \'settings\': {\n        \'module1\': {\n            \'value1\': \'hello world\'\n        },\n        \'module2\': {\n            \'value1\': \'foo bar\'\n        }\n    }\n};\nlet myData = new Data(data);\n\nlet ref1 = myData.ref(\'settings.module1\');\nlet ref2 = myData.ref(\'settings.module2\');\n\n// > "hello world"\nconsole.info(myData.get(\'settings.module1.value1\'));\nconsole.info(ref1.get(\'value1\'));\n\n// > "foo bar"\nconsole.info(myData.get(\'settings.module2.value1\'));\nconsole.info(ref2.get(\'value1\'));\n\nref1.set(\'value1\', \'foo bar\');\n\n// > "foo bar"\nconsole.info(myData.get(\'settings.module1.value1\'));\nconsole.info(ref1.get(\'value1\'));\n\n// > "foo bar"\nconsole.info(myData.get(\'settings.module2.value1\'));\nconsole.info(ref2.get(\'value1\'));\n\n// > {"settings": {"module1": {"value1": "foo bar"}}, "module2": {"value1": "foo bar"}}}\nconsole.dir(data);\n```\n\n## Config object\n\nThe config object extends from the Data class, but provides the load/loadSync and save/saveSync methods.\n\n```js\nconst Config = require(\'data-config\').Config;\n\nlet config = new Config(\'path/to/config-file.json\');\nconfig.load((err) => {\n\n    config.set(\'value1\', \'hello\');\n\n    config.saveSync();\n\n});\n```\n\n## Testing\nA mocha test suite has been provided and can be run by:\n```sh\n$ npm test\n```',
+21 silly publish   readmeFilename: 'README.md',
+21 silly publish   gitHead: '498dc33723a322eade2127d3a5d77c4b70858910',
+21 silly publish   homepage: 'https://github.com/Orgun109uk/data-config#readme',
+21 silly publish   _id: 'data-config@0.1.0',
+21 silly publish   _shasum: 'fb790c62f634c0f110c403bfaa4fb9243f1b2fde',
+21 silly publish   _from: '.' }
+22 verbose getPublishConfig undefined
+23 silly mapToRegistry name data-config
+24 silly mapToRegistry using default registry
+25 silly mapToRegistry registry https://registry.npmjs.org/
+26 silly mapToRegistry data Result {
+26 silly mapToRegistry   raw: 'data-config',
+26 silly mapToRegistry   scope: null,
+26 silly mapToRegistry   escapedName: 'data-config',
+26 silly mapToRegistry   name: 'data-config',
+26 silly mapToRegistry   rawSpec: '',
+26 silly mapToRegistry   spec: 'latest',
+26 silly mapToRegistry   type: 'tag' }
+27 silly mapToRegistry uri https://registry.npmjs.org/data-config
+28 verbose publish registryBase https://registry.npmjs.org/
+29 silly publish uploading /home/vagrant/.npm/data-config/0.1.0/package.tgz
+30 verbose request uri https://registry.npmjs.org/data-config
+31 verbose request sending authorization for write operation
+32 info attempt registry request try #1 at 4:54:42 PM
+33 verbose request using bearer token for auth
+34 verbose request id 84a4ef3d8a776a09
+35 http request PUT https://registry.npmjs.org/data-config
+36 http 403 https://registry.npmjs.org/data-config
+37 verbose headers { 'content-type': 'application/json',
+37 verbose headers   'cache-control': 'max-age=300',
+37 verbose headers   'content-length': '95',
+37 verbose headers   'accept-ranges': 'bytes',
+37 verbose headers   date: 'Sun, 18 Sep 2016 16:54:44 GMT',
+37 verbose headers   via: '1.1 varnish',
+37 verbose headers   connection: 'keep-alive',
+37 verbose headers   'x-served-by': 'cache-lhr6334-LHR',
+37 verbose headers   'x-cache': 'MISS',
+37 verbose headers   'x-cache-hits': '0',
+37 verbose headers   'x-timer': 'S1474217683.019975,VS0,VE1313',
+37 verbose headers   vary: 'Accept-Encoding' }
+38 verbose request invalidating /home/vagrant/.npm/registry.npmjs.org/data-config on PUT
+39 error publish Failed PUT 403
+40 verbose stack Error: "You cannot publish over the previously published version 0.1.0." : data-config
+40 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+40 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+40 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+40 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:200:22)
+40 verbose stack     at emitTwo (events.js:87:13)
+40 verbose stack     at Request.emit (events.js:172:7)
+40 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1067:10)
+40 verbose stack     at emitOne (events.js:82:20)
+40 verbose stack     at Request.emit (events.js:169:7)
+40 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:988:12)
+41 verbose statusCode 403
+42 verbose pkgid data-config
+43 verbose cwd /home/vagrant/workspace/nodejs-cms/data-config
+44 error Linux 4.2.0-16-generic
+45 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish"
+46 error node v5.3.0
+47 error npm  v3.10.6
+48 error code E403
+49 error "You cannot publish over the previously published version 0.1.0." : data-config
+50 error If you need help, you may report this error at:
+50 error     <https://github.com/npm/npm/issues>
+51 verbose exit [ 1, true ]

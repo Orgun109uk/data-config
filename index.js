@@ -5,6 +5,8 @@
  * @author Orgun109uk <orgun109uk@gmail.com>
  */
 
+'use strict';
+
 const pkg = require('./package.json');
 
 module.exports = {

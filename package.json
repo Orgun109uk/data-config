@@ -1,7 +1,7 @@
 {
   "name": "data-config",
   "description": "A pair of classes to manage manipulating an objects data and its storage.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "data",
     "config"
