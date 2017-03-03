@@ -10,10 +10,13 @@
 const pkg = require('./package.json');
 
 module.exports = {
-  /** Exports the version of the package. */
-  version: pkg.version,
+    /** Exports the version of the package. */
+    version: pkg.version,
 
-  /** Exports the available classes. */
-  Data: require('./lib/Data'),
-  Config: require('./lib/Config')
+    /** Exports the available classes. */
+    Data: require('./lib/Data'),
+    Config: require('./lib/Config'),
+
+    /** Exports the available error classes. */
+    EInvalidReferenceType: require('./lib/EInvalidReferenceType')
 };
