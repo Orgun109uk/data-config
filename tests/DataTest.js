@@ -167,6 +167,16 @@ describe('Data', () => {
                 }
             });
         });
+
+        it('should update the isModified state', () => {
+            const config = {};
+            const data = new Data(config);
+
+            test.bool(data.isModified).isNotTrue();
+
+            data.set('test.value', 'bar');
+            test.bool(data.isModified).isTrue();
+        });
     });
 
     /** @test {Data#del} */
@@ -211,6 +221,23 @@ describe('Data', () => {
             test.object(config).is({
                 'test': {}
             });
+        });
+
+        it('should not throw a wobbly if undefined', () => {
+            const config = {};
+            const data = new Data(config);
+
+            data.del('test.value');
+        });
+
+        it('should update the isModified state', () => {
+            const config = { 'test': { 'value': 'hello' } };
+            const data = new Data(config);
+
+            test.bool(data.isModified).isNotTrue();
+
+            data.del('test.value');
+            test.bool(data.isModified).isTrue();
         });
     });
 
@@ -315,6 +342,27 @@ describe('Data', () => {
                     something: { bingo: 'bongo' }
                 }
             });
+        });
+
+        it('should update the isModified state', () => {
+            const config = { hello: 'world', foo: { bar: 'bar' } };
+            let data = new Data(config);
+            let ref = data.ref('foo');
+
+            test.bool(data.isModified).isNotTrue();
+            test.bool(ref.isModified).isNotTrue();
+            data.set('hello', 'foo');
+            test.bool(data.isModified).isTrue();
+            test.bool(ref.isModified).isNotTrue();
+
+            data = new Data(config);
+            ref = data.ref('foo');
+
+            test.bool(data.isModified).isNotTrue();
+            test.bool(ref.isModified).isNotTrue();
+            ref.set('bar', 'world');
+            test.bool(data.isModified).isTrue();
+            test.bool(ref.isModified).isTrue();
         });
     });
 });
